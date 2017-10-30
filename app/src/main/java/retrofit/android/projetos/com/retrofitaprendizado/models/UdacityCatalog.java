@@ -1,5 +1,6 @@
 package retrofit.android.projetos.com.retrofitaprendizado.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -8,6 +9,8 @@ import java.util.List;
 
 public class UdacityCatalog {
     public List<Course> courses;
+
+
 
 
 }

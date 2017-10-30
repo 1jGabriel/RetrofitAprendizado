@@ -1,68 +1,28 @@
 package retrofit.android.projetos.com.retrofitaprendizado;
 
-import android.nfc.Tag;
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-
-import com.google.gson.Gson;
-
-import java.util.List;
-
-import retrofit.android.projetos.com.retrofitaprendizado.models.Course;
-import retrofit.android.projetos.com.retrofitaprendizado.models.Instructor;
-import retrofit.android.projetos.com.retrofitaprendizado.models.UdacityCatalog;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import android.view.View;
+import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
-private static final String TAG = "Joao";
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-//criacao do retrofit
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(UdacityService.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        UdacityService service = retrofit.create(UdacityService.class);
-
-        Call<UdacityCatalog> requestCatalog  = service.listCatalog();
-
-        requestCatalog.enqueue(new Callback<UdacityCatalog>() {
+            private Button botao;
 
             @Override
-            public void onResponse(Call<UdacityCatalog> call, Response<UdacityCatalog> response) {
-                if (!response.isSuccessful()){
-                    Log.i(TAG, "Erro"+response.code());
-                }else {
-                    //requisicao sucesso
-                    UdacityCatalog catalogo = response.body();
-                    for (Course c : catalogo.courses
-                            ) {
-                        Log.i(TAG, String.format("%s : %s", c.title, c.subtitle));
-                        for (Instructor i: c.instructors
-                             ) {Log.i(TAG, i.name.toString());
+            protected void onCreate(Bundle savedInstanceState) {
+                super.onCreate(savedInstanceState);
+                setContentView(R.layout.activity_main);
+                botao = (Button) findViewById(R.id.idButton);
 
-                        }
-                        Log.i(TAG,"-----------------------");
+                botao.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(MainActivity.this, TesteActivity.class));
                     }
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<UdacityCatalog> call, Throwable t) {
-                Log.e(TAG, "Erro"+t.getMessage());
+                });
 
             }
-        });
-
-
-    }
 }
